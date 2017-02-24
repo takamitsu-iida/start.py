@@ -51,12 +51,14 @@ https://marketplace.visualstudio.com/items?itemName=donjayamanne.python
   "python.formatting.provider": "yapf",
   "python.formatting.yapfPath": "yapf",
   "python.formatting.yapfArgs": [
-    "--style={based_on_style: chromium, indent_width: 4, continuation_indent_width: 4, column_limit: 120}"
+    "--style={based_on_style: chromium, indent_width: 2, continuation_indent_width: 2, column_limit: 120}"
   ],
 ```
 
-この設定では、Pythonスクリプトのインデントの数を4で指定していますので、
-VS Codeで『ドキュメントのフォーマット』を実行すると、インデントは4に整形されます。
+この設定では、Pythonスクリプトのインデントの数を2で指定していますので、
+VS Codeで『ドキュメントのフォーマット』を実行すると、インデントは2に整形されます。
+
+インデント数を変えたい時は上記設定を変更してフォーマットし直してください。
 
 
 # 初期スクリプト
@@ -69,54 +71,97 @@ Hello Worldを出力するだけでも、スクリプトとして完成させる
 # -*- coding: utf-8 -*-
 
 """
-メインとなるスクリプトです。
+スクリプト全体のコメント
 
-使い方
-py -3 main.py
+依存ライブラリ
+　pylint
+  yapf
+  requests
+
+依存ライブラリの一括インストール
+  pip install -r requirements.txt [--proxy=http://user:pass@proxy-addr:8080]
 """
 
+#
+# 標準ライブラリのインポート
+#
 import logging
 import os
 import sys
-
-# 通常はWARN
-# 多めに情報を見たい場合はINFO
-logging.basicConfig(level=logging.WARN)
 
 def here(path=''):
   """相対パスを絶対パスに変換して返却します"""
   return os.path.abspath(os.path.join(os.path.dirname(__file__), path))
 
-# ./libフォルダにおいたpythonスクリプトを読みこませるための処理
+# ./libフォルダにおいたpythonスクリプトをインポートできるようにするための処理
 sys.path.append(here("./lib"))
 
-# ./lib/site-packagesに外部ライブラリを置いたときに、それを読み込ませるための処理
+# 独自の場所にsite-packagesを置いた場合は、その場所を指定します
 sys.path.append(here("./lib/site-packages"))
 
-###############################################################################
+#
+# 外部ライブラリのインポート
+#
+try:
+  import requests
+  # HTTPSを使用した場合に、証明書関連の警告を無視する設定です
+  requests.packages.urllib3.disable_warnings()
+except ImportError:
+  logging.error("requestsモジュールのインポートに失敗しました。")
+  exit()
+
+#
+# ロギングの設定をします。
+# レベルはこの順で下にいくほど詳細になります。
+#   logging.CRITICAL
+#   logging.ERROR
+#   logging.WARNING --- 初期値はこのレベル
+#   logging.INFO
+#   logging.DEBUG
+#
+logger = logging.getLogger(__name__)
+handler = logging.StreamHandler()
+handler.setLevel(logging.WARNING)
+logger.setLevel(logging.WARNING)
+logger.addHandler(handler)
+
+# ログの出力方法
+# logger.debug("debugレベルのログメッセージ")
+# logger.info("infoレベルのログメッセージ")
+# logger.warning("warningレベルのログメッセージ")
+
+#
+# ここからスクリプト
+#
 
 def main():
-  """メイン関数"""
+  """
+  Hello Worldを出力する関数です。
+  """
 
   # endを指定しない場合は"\n"がdefaultとなり出力の最後で改行される
-  print("Hello") # -> aaa bbb\n
+  print("Hello World") # -> Hello World\n
 
   # end引数に空文字を指定することで改行を防止できる
-  print("aaa", end="") # -> aaa
+  print("Hello World", end="") # -> Hello World
 
   # 引数には出力用データを複数指定可能
   # データの結合文字はsepで指定する。defaultは半角スペース
-  print("aaa", "bbb") # -> aaa bbb\n
+  print("Hello", "World") # -> aaa bbb\n
 
   # sepで結合文字を変更
-  print("aaa", "bbb", sep=",") # -> aaa,bbb\n
+  print("Hello", "World", sep=",") # -> Hello,World\n
 
   # sepとendは同時に設定可能
-  print("aaa", "bbb", sep=",", end="") # -> aaa,bbb
+  print("Hello", "World", sep=",", end="") # -> Hello,World
 
   # fileで指定したファイルオブジェクトに出力できる
-  print("test", file=sys.stdout)
+  print("Hello World", file=sys.stdout)
 
+
+#
+# 関数を実行
+#
 
 if __name__ == '__main__':
   main()
