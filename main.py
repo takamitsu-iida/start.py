@@ -13,6 +13,10 @@
   pip install -r requirements.txt [--proxy=http://user:pass@proxy-addr:8080]
 """
 
+__author__ = "Name"
+__version__ = "0.0"
+__date__ = "2017/02/24"
+
 #
 # 標準ライブラリのインポート
 #
