@@ -35,6 +35,34 @@ sys.path.append(here("./lib"))
 sys.path.append(here("./lib/site-packages"))
 
 #
+# ロギングの設定
+# レベルはこの順で下にいくほど詳細になる
+#   logging.CRITICAL
+#   logging.ERROR
+#   logging.WARNING --- 初期値はこのレベル
+#   logging.INFO
+#   logging.DEBUG
+#
+# ログの出力方法
+# logger.debug("debugレベルのログメッセージ")
+# logger.info("infoレベルのログメッセージ")
+# logger.warning("warningレベルのログメッセージ")
+
+# ロガーを取得
+logger = logging.getLogger(__name__)  # パッケージ共通のロガーは __package__
+
+# レベル設定
+logger.setLevel(logging.WARNING)
+
+# フォーマット
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+# 標準出力へのハンドラ
+stdout_handler = logging.StreamHandler(sys.stdout)
+stdout_handler.setFormatter(formatter)
+logger.addHandler(stdout_handler)
+
+#
 # 外部ライブラリのインポート
 #
 try:
@@ -42,28 +70,8 @@ try:
   # HTTPSを使用した場合に、証明書関連の警告を無視する設定です
   requests.packages.urllib3.disable_warnings()
 except ImportError:
-  logging.error("requestsモジュールのインポートに失敗しました。")
-  exit()
-
-#
-# ロギングの設定をします。
-# レベルはこの順で下にいくほど詳細になります。
-#   logging.CRITICAL
-#   logging.ERROR
-#   logging.WARNING --- 初期値はこのレベル
-#   logging.INFO
-#   logging.DEBUG
-#
-logger = logging.getLogger(__name__)
-handler = logging.StreamHandler()
-handler.setLevel(logging.WARNING)
-logger.setLevel(logging.WARNING)
-logger.addHandler(handler)
-
-# ログの出力方法
-# logger.debug("debugレベルのログメッセージ")
-# logger.info("infoレベルのログメッセージ")
-# logger.warning("warningレベルのログメッセージ")
+  logger.error("requestsモジュールのインポートに失敗しました。")
+  exit(1)
 
 #
 # ここからスクリプト
