@@ -69,8 +69,9 @@ try:
   import requests
   # HTTPSを使用した場合に、証明書関連の警告を無視する設定です
   requests.packages.urllib3.disable_warnings()
-except ImportError:
+except ImportError as e:
   logger.error("requestsモジュールのインポートに失敗しました。")
+  logger.exception(e)
   exit(1)
 
 #
@@ -101,10 +102,6 @@ def main():
   # fileで指定したファイルオブジェクトに出力できる
   print("Hello World", file=sys.stdout)
 
-
-#
-# 関数を実行
-#
 
 if __name__ == '__main__':
   main()
