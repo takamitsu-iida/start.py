@@ -30,11 +30,25 @@ def here(path=''):
 
 # ./libフォルダにおいたpythonスクリプトをインポートできるようにするための処理
 sys.path.append(here("./lib"))
-
-# 独自の場所にsite-packagesを置いた場合は、その場所を指定します
 sys.path.append(here("./lib/site-packages"))
 
-#
+# アプリケーションのホームディレクトリ
+app_home = here(".")
+
+# 自身の名前から拡張子を除いてプログラム名を得る
+app_name = os.path.splitext(os.path.basename(__file__))[0]
+
+# ログファイルの名前
+log_file = app_name + ".log"
+
+# ログファイルを置くディレクトリ
+log_dir = os.path.join(app_home, "log")
+try:
+  if not os.path.isdir(log_dir):
+    os.makedirs(log_dir)
+except OSError:
+  pass
+
 # ロギングの設定
 # レベルはこの順で下にいくほど詳細になる
 #   logging.CRITICAL
@@ -49,18 +63,25 @@ sys.path.append(here("./lib/site-packages"))
 # logger.warning("warningレベルのログメッセージ")
 
 # ロガーを取得
-logger = logging.getLogger(__name__)  # パッケージ共通のロガーは __package__
+logger = logging.getLogger(app_name)  # __package__
 
-# レベル設定
-logger.setLevel(logging.WARNING)
+# ログレベル設定
+logger.setLevel(logging.INFO)
 
 # フォーマット
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 
 # 標準出力へのハンドラ
 stdout_handler = logging.StreamHandler(sys.stdout)
 stdout_handler.setFormatter(formatter)
+stdout_handler.setLevel(logging.WARNING)
 logger.addHandler(stdout_handler)
+
+# ログファイルのハンドラ
+file_handler = logging.FileHandler(os.path.join(log_dir, log_file), 'a+')
+file_handler.setFormatter(formatter)
+file_handler.setLevel(logging.INFO)
+logger.addHandler(file_handler)
 
 #
 # 外部ライブラリのインポート
@@ -70,8 +91,7 @@ try:
   # HTTPSを使用した場合に、証明書関連の警告を無視する設定です
   requests.packages.urllib3.disable_warnings()
 except ImportError as e:
-  logger.error("requestsモジュールのインポートに失敗しました。")
-  logger.exception(e)
+  logger.exception("requestsモジュールのインポートに失敗しました: %s", e)
   exit(1)
 
 #
