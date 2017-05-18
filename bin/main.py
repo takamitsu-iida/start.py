@@ -42,14 +42,15 @@ app_home = here("..")
 # 自身の名前から拡張子を除いてプログラム名を得る
 app_name = os.path.splitext(os.path.basename(__file__))[0]
 
-# 設定ファイルのパス
-# $app_home/conf/config.ini
-config_file = os.path.join(app_home, "conf", "config.ini")
+#
+# 設定ファイルを読む
+#
+config_file = os.path.join(app_home, "conf", "config.ini")  # $app_home/conf/config.ini
+
 if not os.path.exists(config_file):
   logging.error("File not found %s : ", config_file)
   exit(1)
 
-# 設定ファイルを読む
 try:
   cp = configparser.SafeConfigParser()
   cp.read(config_file, encoding='utf8')
