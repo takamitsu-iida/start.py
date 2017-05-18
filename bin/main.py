@@ -20,6 +20,10 @@ __date__ = "2017/02/24"
 #
 # 標準ライブラリのインポート
 #
+try:
+  import configparser  # python3
+except ImportError:
+  import ConfigParser as configparser  # python2
 import logging
 import os
 import sys
@@ -29,14 +33,40 @@ def here(path=''):
   return os.path.abspath(os.path.join(os.path.dirname(__file__), path))
 
 # ./libフォルダにおいたpythonスクリプトをインポートできるようにするための処理
-sys.path.append(here("./lib"))
-sys.path.append(here("./lib/site-packages"))
+sys.path.append(here("../lib"))
+sys.path.append(here("../lib/site-packages"))
 
-# アプリケーションのホームディレクトリ
-app_home = here(".")
+# アプリケーションのホームディレクトリは一つ上
+app_home = here("..")
 
 # 自身の名前から拡張子を除いてプログラム名を得る
 app_name = os.path.splitext(os.path.basename(__file__))[0]
+
+# 設定ファイルのパス
+# $app_home/conf/config.ini
+config_file = os.path.join(app_home, "conf", "config.ini")
+if not os.path.exists(config_file):
+  logging.error("File not found %s : ", config_file)
+  exit(1)
+
+# 設定ファイルを読む
+try:
+  cp = configparser.SafeConfigParser()
+  cp.read(config_file, encoding='utf8')
+
+  # [default] セクション
+  config = cp['default']
+  USE_FILE_HANDLER = config.getboolean('USE_FILE_HANDLER')
+  USERNAME = config['USERNAME']
+  PASSWORD = config['PASSWORD']
+
+except configparser.Error as e:
+  logging.exception(e)
+  exit(1)
+
+#
+# ログ設定
+#
 
 # ログファイルの名前
 log_file = app_name + ".log"
@@ -78,10 +108,11 @@ stdout_handler.setLevel(logging.WARNING)
 logger.addHandler(stdout_handler)
 
 # ログファイルのハンドラ
-file_handler = logging.FileHandler(os.path.join(log_dir, log_file), 'a+')
-file_handler.setFormatter(formatter)
-file_handler.setLevel(logging.INFO)
-logger.addHandler(file_handler)
+if USE_FILE_HANDLER:
+  file_handler = logging.FileHandler(os.path.join(log_dir, log_file), 'a+')
+  file_handler.setFormatter(formatter)
+  file_handler.setLevel(logging.INFO)
+  logger.addHandler(file_handler)
 
 #
 # 外部ライブラリのインポート
