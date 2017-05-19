@@ -33,8 +33,11 @@ def here(path=''):
   return os.path.abspath(os.path.join(os.path.dirname(__file__), path))
 
 # ./libフォルダにおいたpythonスクリプトをインポートできるようにするための処理
-sys.path.append(here("../lib"))
-sys.path.append(here("../lib/site-packages"))
+if not here("../lib") in sys.path:
+  sys.path.append(here("../lib"))
+
+if not here("../lib/site-packages") in sys.path:
+  sys.path.append(here("../lib/site-packages"))
 
 # アプリケーションのホームディレクトリは一つ上
 app_home = here("..")
@@ -49,7 +52,7 @@ config_file = os.path.join(app_home, "conf", "config.ini")  # $app_home/conf/con
 
 if not os.path.exists(config_file):
   logging.error("File not found %s : ", config_file)
-  exit(1)
+  sys.exit(1)
 
 try:
   cp = configparser.SafeConfigParser()
@@ -63,7 +66,7 @@ try:
 
 except configparser.Error as e:
   logging.exception(e)
-  exit(1)
+  sys.exit(1)
 
 #
 # ログ設定
@@ -124,36 +127,38 @@ try:
   requests.packages.urllib3.disable_warnings()
 except ImportError as e:
   logger.exception("requestsモジュールのインポートに失敗しました: %s", e)
-  exit(1)
+  sys.exit(1)
 
 #
 # ここからスクリプト
 #
-
-def main():
-  """
-  Hello Worldを出力する関数です。
-  """
-
-  # endを指定しない場合は"\n"がdefaultとなり出力の最後で改行される
-  print("Hello World") # -> Hello World\n
-
-  # end引数に空文字を指定することで改行を防止できる
-  print("Hello World", end="") # -> Hello World
-
-  # 引数には出力用データを複数指定可能
-  # データの結合文字はsepで指定する。defaultは半角スペース
-  print("Hello", "World") # -> aaa bbb\n
-
-  # sepで結合文字を変更
-  print("Hello", "World", sep=",") # -> Hello,World\n
-
-  # sepとendは同時に設定可能
-  print("Hello", "World", sep=",", end="") # -> Hello,World
-
-  # fileで指定したファイルオブジェクトに出力できる
-  print("Hello World", file=sys.stdout)
-
-
 if __name__ == '__main__':
-  main()
+
+  def main():
+    """
+    Hello Worldを出力する関数です。
+    """
+
+    # endを指定しない場合は"\n"がdefaultとなり出力の最後で改行される
+    print("Hello World") # -> Hello World\n
+
+    # end引数に空文字を指定することで改行を防止できる
+    print("Hello World", end="") # -> Hello World
+
+    # 引数には出力用データを複数指定可能
+    # データの結合文字はsepで指定する。defaultは半角スペース
+    print("Hello", "World") # -> aaa bbb\n
+
+    # sepで結合文字を変更
+    print("Hello", "World", sep=",") # -> Hello,World\n
+
+    # sepとendは同時に設定可能
+    print("Hello", "World", sep=",", end="") # -> Hello,World
+
+    # fileで指定したファイルオブジェクトに出力できる
+    print("Hello World", file=sys.stdout)
+
+    return 0
+
+  # 実行
+  sys.exit(main())
