@@ -20,6 +20,7 @@ __date__ = "2017/02/24"
 #
 # 標準ライブラリのインポート
 #
+import argparse
 try:
   import configparser  # python3
 except ImportError:
@@ -141,27 +142,35 @@ if __name__ == '__main__':
 
   def main():
     """
-    Hello Worldを出力する関数です。
+    メイン関数です。
     """
+    # 引数処理
+    parser = argparse.ArgumentParser(description='main script.')
+    parser.add_argument('-c', '--create', action='store_true', default=False, help='Create')
+    parser.add_argument('-f', '--filename', dest='filename', metavar='file', default='FILENAME', help='Filename')
+    parser.add_argument('-d', '--dump', action='store_true', default=False, help='Dump')
+    args = parser.parse_args()
 
-    # endを指定しない場合は"\n"がdefaultとなり出力の最後で改行される
-    print("Hello World") # -> Hello World\n
+    if args.dump:
 
-    # end引数に空文字を指定することで改行を防止できる
-    print("Hello World", end="") # -> Hello World
+      # endを指定しない場合は"\n"がdefaultとなり出力の最後で改行される
+      print("Hello World") # -> Hello World\n
 
-    # 引数には出力用データを複数指定可能
-    # データの結合文字はsepで指定する。defaultは半角スペース
-    print("Hello", "World") # -> aaa bbb\n
+      # end引数に空文字を指定することで改行を防止できる
+      print("Hello World", end="") # -> Hello World
 
-    # sepで結合文字を変更
-    print("Hello", "World", sep=",") # -> Hello,World\n
+      # 引数には出力用データを複数指定可能
+      # データの結合文字はsepで指定する。defaultは半角スペース
+      print("Hello", "World") # -> aaa bbb\n
 
-    # sepとendは同時に設定可能
-    print("Hello", "World", sep=",", end="") # -> Hello,World
+      # sepで結合文字を変更
+      print("Hello", "World", sep=",") # -> Hello,World\n
 
-    # fileで指定したファイルオブジェクトに出力できる
-    print("Hello World", file=sys.stdout)
+      # sepとendは同時に設定可能
+      print("Hello", "World", sep=",", end="") # -> Hello,World
+
+      # fileで指定したファイルオブジェクトに出力できる
+      print("Hello World", file=sys.stdout)
 
     return 0
 
