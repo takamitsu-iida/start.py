@@ -8,8 +8,9 @@
   yapf
   requests
 
+Note:
   依存ライブラリの一括インストール
-    pip install -r requirements.txt [--proxy=http://user:pass@proxy-addr:8080]
+  pip install -r requirements.txt [--proxy=http://user:pass@proxy-addr:8080]
 
 Example:
   $ python bin/main.py --dump
