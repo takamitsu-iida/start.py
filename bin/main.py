@@ -123,7 +123,7 @@ formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 # 標準出力へのハンドラ
 stdout_handler = logging.StreamHandler(sys.stdout)
 stdout_handler.setFormatter(formatter)
-stdout_handler.setLevel(logging.WARNING)
+stdout_handler.setLevel(logging.INFO)
 logger.addHandler(stdout_handler)
 
 # ログファイルのハンドラ
