@@ -68,9 +68,9 @@ try:
 
   # [default] セクション
   config = cp['default']
-  USE_FILE_HANDLER = config.getboolean('USE_FILE_HANDLER')
-  USERNAME = config['USERNAME']
-  PASSWORD = config['PASSWORD']
+  USE_FILE_HANDLER = config.getboolean('USE_FILE_HANDLER', False)
+  USERNAME = config.get('USERNAME', "admin")
+  PASSWORD = config.get('PASSWORD', "password")
 
 except configparser.Error as e:
   logging.exception(e)
