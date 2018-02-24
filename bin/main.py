@@ -142,22 +142,8 @@ except ImportError as e:
 #
 if __name__ == '__main__':
 
-  def main():
-    """メイン関数
-
-    Returns:
-      int -- 正常終了は0、異常時はそれ以外を返却
-    """
-
-    # 引数処理
-    parser = argparse.ArgumentParser(description='main script.')
-    parser.add_argument('-c', '--create', action='store_true', default=False, help='Create')
-    parser.add_argument('-f', '--filename', dest='filename', metavar='file', default='FILENAME', help='Filename')
-    parser.add_argument('-d', '--dump', action='store_true', default=False, help='Dump')
-    args = parser.parse_args()
-
-    if args.dump:
-
+  def dump():
+    try:
       # endを指定しない場合は"\n"がdefaultとなり出力の最後で改行される
       print("Hello World") # -> Hello World\n
 
@@ -176,6 +162,29 @@ if __name__ == '__main__':
 
       # fileで指定したファイルオブジェクトに出力できる
       print("Hello World", file=sys.stdout)
+    except (BrokenPipeError, IOError):
+      # lessにパイプしたときのBrokenPipeError: [Errno 32] Broken pipeを避ける
+      sys.stderr.close()
+
+
+  def main():
+    """メイン関数
+
+    Returns:
+      int -- 正常終了は0、異常時はそれ以外を返却
+    """
+
+    # 引数処理
+    parser = argparse.ArgumentParser(description='main script.')
+    parser.add_argument('-c', '--create', action='store_true', default=False, help='Create')
+    parser.add_argument('-f', '--filename', dest='filename', metavar='file', default='FILENAME', help='Filename')
+    parser.add_argument('-d', '--dump', action='store_true', default=False, help='Dump')
+    args = parser.parse_args()
+
+    if args.dump:
+      dump()
+
+    # do something nice
 
     return 0
 
