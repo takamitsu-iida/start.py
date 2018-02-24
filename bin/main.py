@@ -1,22 +1,28 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-"""
-スクリプト全体のコメント
+"""pythonスクリプト
 
 依存ライブラリ
 　pylint
   yapf
   requests
 
-依存ライブラリの一括インストール
-  pip install -r requirements.txt [--proxy=http://user:pass@proxy-addr:8080]
+  依存ライブラリの一括インストール
+    pip install -r requirements.txt [--proxy=http://user:pass@proxy-addr:8080]
+
+Example:
+  $ python bin/main.py --dump
+  Hello World
+  Hello WorldHello World
+  Hello,World
+  Hello,WorldHello World
 """
 
 __author__ = "Name"
 __version__ = "0.0"
 __date__ = "2017/02/24"  # 初版
-__date__ = "2018/02/24"  # python3専用
+__date__ = "2018/02/24"  # python3専用に書き換え
 
 #
 # 標準ライブラリのインポート
