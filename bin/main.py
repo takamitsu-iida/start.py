@@ -15,16 +15,14 @@
 
 __author__ = "Name"
 __version__ = "0.0"
-__date__ = "2017/02/24"
+__date__ = "2017/02/24"  # 初版
+__date__ = "2018/02/24"  # python3専用
 
 #
 # 標準ライブラリのインポート
 #
 import argparse
-try:
-  import configparser  # python3
-except ImportError:
-  import ConfigParser as configparser  # python2
+import configparser  # python3
 import logging
 import os
 import sys
@@ -145,9 +143,12 @@ except ImportError as e:
 if __name__ == '__main__':
 
   def main():
+    """メイン関数
+
+    Returns:
+      int -- 正常終了は0、異常時はそれ以外を返却
     """
-    メイン関数です。
-    """
+
     # 引数処理
     parser = argparse.ArgumentParser(description='main script.')
     parser.add_argument('-c', '--create', action='store_true', default=False, help='Create')
