@@ -28,7 +28,7 @@ __date__ = "2018/02/24"  # python3専用に書き換え
 #
 # 標準ライブラリのインポート
 #
-import argparse
+import argparse  # 引数処理
 import configparser  # python3
 import logging
 import os
@@ -150,6 +150,11 @@ except ImportError as e:
 if __name__ == '__main__':
 
   def dump():
+    """画面表示します。
+
+    printで長い出力をするときにはBrokenPipeErrorに気をつけます。
+    パイプでlessにつなげるとBrokenPipeErrorが発生するのでそれを捕捉して標準エラー出力を閉じます。
+    """
     try:
       # endを指定しない場合は"\n"がdefaultとなり出力の最後で改行される
       print("Hello World") # -> Hello World\n
