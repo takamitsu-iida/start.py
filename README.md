@@ -10,22 +10,20 @@ Pythonスクリプトをゼロから書くときにクローンするプロジ�
 
 3. .gitフォルダを削除します（使わないので）
 
-
 ## pylint
 
 書式チェックツールはpylintを想定して、.pylintrcを同梱しています。
 pylintをインストールしていない場合は、pipでインストールしてください。
 
-```
+```bash
 pip install pylint [--proxy=http://name:pass@proxyaddr:8080]
 ```
 
 .pylintrcは自動生成したものをベースに、ちょっとだけ書き換えています。
 
-```
+```bash
 pylint --generate-rcfile > .pylintrc
 ```
-
 
 ## yapf
 
@@ -33,15 +31,15 @@ pylint --generate-rcfile > .pylintrc
 特にスクリプトのインデントの数を2にするか、4にするか迷うときに、一括変換する場合に便利です。
 Visual Studio Codeでは、右クリック→ドキュメントのフォーマット、で変換されます。
 
-```
+```bash
 pip install yapf [--proxy=http://name:pass@proxyaddr:8080]
 ```
-
 
 ## Visual Studio Codeの設定
 
 拡張機能の「Python」を導入することで、Pythonスクリプトの編集が楽になります。
-https://marketplace.visualstudio.com/items?itemName=donjayamanne.python
+
+<https://marketplace.visualstudio.com/items?itemName=donjayamanne.python>
 
 ファイル→基本設定→設定、に以下の設定を加えることで、エディタの中でpylintとyapfが使えるようになります。。
 
@@ -59,7 +57,6 @@ https://marketplace.visualstudio.com/items?itemName=donjayamanne.python
 VS Codeで『ドキュメントのフォーマット』を実行すると、インデントは2に整形されます。
 
 インデント数を変えたい時は上記設定を変更してフォーマットし直してください。
-
 
 # 初期スクリプト
 
