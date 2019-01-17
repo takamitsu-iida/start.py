@@ -1,4 +1,7 @@
-﻿# フォルダ単位で無視
+﻿# vs code
+*.code-workspace
+
+# フォルダ単位で無視
 /data/
 /log/
 /logs/
