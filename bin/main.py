@@ -70,7 +70,7 @@ if not os.path.exists(config_file):
   sys.exit(1)
 
 try:
-  cp = configparser.SafeConfigParser()
+  cp = configparser.ConfigParser()
   cp.read(config_file, encoding='utf8')
 
   # [default] セクション
