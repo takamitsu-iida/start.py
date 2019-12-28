@@ -6,7 +6,7 @@ import sys
 
 logger = logging.getLogger(__name__)
 
-class MainLib(object):
+class MainLib:
 
   def __init__(self, params):
     self._username = params.get('username', '')
@@ -14,7 +14,6 @@ class MainLib(object):
 
   def print_username(self):
     print(self.username())
-
 
   #
   # getter/setter
@@ -35,7 +34,7 @@ if __name__ == '__main__':
 
   def main():
 
-    parser = argparse.ArgumentParser(description='operate ngrok.')
+    parser = argparse.ArgumentParser(description='operate something nice')
     parser.add_argument('-p', '--print', action='store_true', default=False, help='Print params')
     args = parser.parse_args()
 

@@ -41,7 +41,7 @@ pip install yapf [--proxy=http://name:pass@proxyaddr:8080]
 
 <https://marketplace.visualstudio.com/items?itemName=donjayamanne.python>
 
-ファイル→基本設定→設定、に以下の設定を加えることで、エディタの中でpylintとyapfが使えるようになります。。
+ファイル→基本設定→設定、に以下の設定を加えることで、エディタの中でpylintとyapfが使えるようになります。
 
 ```js
   // python
@@ -62,3 +62,4 @@ VS Codeで『ドキュメントのフォーマット』を実行すると、イ�
 
 20190209 改行コードを全てLFに統一
 20190209 SafeConfigParser()をConfigParser()に変更
+20191228 ライブラリの雛形lib/main_lib.pyを追加
