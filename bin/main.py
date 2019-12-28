@@ -20,15 +20,17 @@ Example:
   Hello,WorldHello World
 """
 
-__author__ = "Name"
+__author__ = "takamitsu-iida"
 __version__ = "0.0"
+
 __date__ = "2017/02/24"  # 初版
 __date__ = "2018/02/24"  # python3専用に書き換え
+__date__ = "2019/12/28"  # ライブラリ用にlib/main_lib.pyを追加
 
 #
 # 標準ライブラリのインポート
 #
-import argparse  # 引数処理
+import argparse
 import configparser  # python3
 import logging
 import os
@@ -39,16 +41,8 @@ def here(path=''):
   if getattr(sys, 'frozen', False):
     # cx_Freezeで固めた場合は実行ファイルからの相対パス
     return os.path.abspath(os.path.join(os.path.dirname(sys.executable), path))
-  else:
-    # 通常はこのファイルの場所からの相対パス
-    return os.path.abspath(os.path.join(os.path.dirname(__file__), path))
-
-# ./libフォルダにおいたpythonスクリプトをインポートできるようにするための処理
-if not here("../lib") in sys.path:
-  sys.path.append(here("../lib"))
-
-if not here("../lib/site-packages") in sys.path:
-  sys.path.append(here("../lib/site-packages"))
+  # 通常はこのファイルの場所からの相対パス
+  return os.path.abspath(os.path.join(os.path.dirname(__file__), path))
 
 # アプリケーションのホームディレクトリは一つ上
 app_home = here("..")
@@ -59,6 +53,14 @@ app_name = os.path.splitext(os.path.basename(__file__))[0]
 # ディレクトリ
 conf_dir = os.path.join(app_home, "conf")
 data_dir = os.path.join(app_home, "data")
+
+# libフォルダにおいたpythonスクリプトをインポートできるようにするための処理
+# このファイルの位置から一つ
+if not here("../lib") in sys.path:
+  sys.path.append(here("../lib"))
+
+if not here("../lib/site-packages") in sys.path:
+  sys.path.append(here("../lib/site-packages"))
 
 #
 # 設定ファイルを読む
@@ -138,8 +140,7 @@ if USE_FILE_HANDLER:
 #
 try:
   import requests
-  # HTTPSを使用した場合に、証明書関連の警告を無視する設定です
-  requests.packages.urllib3.disable_warnings()
+  requests.packages.urllib3.disable_warnings()  # HTTPSを使用した場合に証明書関連の警告を無視
 except ImportError as e:
   logger.exception("requestsモジュールのインポートに失敗しました: %s", e)
   sys.exit(1)
@@ -192,6 +193,12 @@ if __name__ == '__main__':
     parser.add_argument('-f', '--filename', dest='filename', metavar='file', default='FILENAME', help='Filename')
     parser.add_argument('-d', '--dump', action='store_true', default=False, help='Dump')
     args = parser.parse_args()
+
+    # フィルタで受け取りたい場合はこうする（↓）
+    # parser.add_argument('-i', '--inline', type=argparse.FileType('r'), default=sys.stdin, help='read from file')
+    # args = parser.parse_args(args=sys.argv[1:])
+    # with args.inline as f:
+    #   data = f.read()
 
     if args.dump:
       dump()
