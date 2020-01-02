@@ -36,6 +36,7 @@ import logging
 import os
 import sys
 
+
 def here(path=''):
   """相対パスを絶対パスに変換して返却します"""
   if getattr(sys, 'frozen', False):
@@ -68,8 +69,7 @@ if not here("../lib/site-packages") in sys.path:
 config_file = os.path.join(conf_dir, "config.ini")  # $app_home/conf/config.ini
 
 if not os.path.exists(config_file):
-  logging.error("File not found %s : ", config_file)
-  sys.exit(1)
+  sys.exit("File not found:{}".format(config_file))
 
 try:
   cp = configparser.ConfigParser()
@@ -82,8 +82,7 @@ try:
   PASSWORD = config.get('PASSWORD', "password")
 
 except configparser.Error as e:
-  logging.exception(e)
-  sys.exit(1)
+  sys.exit(str(e))
 
 #
 # ログ設定
@@ -113,8 +112,11 @@ except OSError:
 # logger.info("infoレベルのログメッセージ")
 # logger.warning("warningレベルのログメッセージ")
 
+# default setting
+logging.basicConfig()
+
 # ロガーを取得
-logger = logging.getLogger(app_name)  # __package__
+logger = logging.getLogger(__name__)
 
 # ログレベル設定
 logger.setLevel(logging.INFO)
