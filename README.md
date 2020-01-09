@@ -58,8 +58,8 @@ VS Codeで『ドキュメントのフォーマット』を実行すると、イ�
 
 インデント数を変えたい時は上記設定を変更してフォーマットし直してください。
 
-# 履歴
+## 履歴
 
-20190209 改行コードを全てLFに統一
-20190209 SafeConfigParser()をConfigParser()に変更
-20191228 ライブラリの雛形lib/main_lib.pyを追加
+- 20190209 改行コードを全てLFに統一
+- 20190209 SafeConfigParser()をConfigParser()に変更
+- 20191228 ライブラリの雛形lib/main_lib.pyを追加

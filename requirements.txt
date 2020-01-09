@@ -1,3 +1,2 @@
 pylint
 yapf
-requests
