@@ -4,9 +4,8 @@
 """pythonスクリプト
 
 依存ライブラリ
-　pylint
+  pylint
   yapf
-  requests
 
 Note:
   依存ライブラリの一括インストール
@@ -31,7 +30,7 @@ __date__ = "2019/12/28"  # ライブラリ用にlib/main_lib.pyを追加
 # 標準ライブラリのインポート
 #
 import argparse
-import configparser  # python3
+import configparser
 import logging
 import os
 import sys
@@ -41,7 +40,7 @@ def here(path=''):
   """相対パスを絶対パスに変換して返却します"""
   return os.path.abspath(os.path.join(os.path.dirname(__file__), path))
 
-# アプリケーションのホームディレクトリは一つ上
+# アプリケーションのホームディレクトリはこのファイルからみて一つ上
 app_home = here("..")
 
 # 自身の名前から拡張子を除いてプログラム名を得る
@@ -51,18 +50,17 @@ app_name = os.path.splitext(os.path.basename(__file__))[0]
 conf_dir = os.path.join(app_home, "conf")
 data_dir = os.path.join(app_home, "data")
 
+
 # libフォルダにおいたpythonスクリプトをインポートできるようにするための処理
 # このファイルの位置から一つ
-if not here("../lib") in sys.path:
-  sys.path.append(here("../lib"))
-
-if not here("../lib/site-packages") in sys.path:
-  sys.path.append(here("../lib/site-packages"))
+lib_dir = os.path.join(app_home, "lib")
+if not lib_dir in sys.path:
+  sys.path.append(lib_dir)
 
 #
 # 設定ファイルを読む
 #
-config_file = os.path.join(conf_dir, "config.ini")  # $app_home/conf/config.ini
+config_file = os.path.join(conf_dir, "config.ini")
 
 if not os.path.exists(config_file):
   sys.exit("File not found:{}".format(config_file))
@@ -89,11 +87,7 @@ log_file = app_name + ".log"
 
 # ログファイルを置くディレクトリ
 log_dir = os.path.join(app_home, "log")
-try:
-  if not os.path.isdir(log_dir):
-    os.makedirs(log_dir)
-except OSError:
-  pass
+os.makedirs(log_dir, exist_ok=True)
 
 # ロギングの設定
 # レベルはこの順で下にいくほど詳細になる
@@ -133,15 +127,6 @@ if USE_FILE_HANDLER:
   file_handler.setLevel(logging.INFO)
   logger.addHandler(file_handler)
 
-#
-# 外部ライブラリのインポート
-#
-try:
-  import requests
-  requests.packages.urllib3.disable_warnings()  # HTTPSを使用した場合に証明書関連の警告を無視
-except ImportError as e:
-  logger.exception("requestsモジュールのインポートに失敗しました: %s", e)
-  sys.exit(1)
 
 #
 # ここからスクリプト
