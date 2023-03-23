@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
 """pythonスクリプト
 
@@ -19,12 +18,13 @@ Example:
   Hello,WorldHello World
 """
 
-__author__ = "takamitsu-iida"
-__version__ = "0.0"
+__author__ = 'takamitsu-iida'
+__version__ = '0.0'
 
-__date__ = "2017/02/24"  # 初版
-__date__ = "2018/02/24"  # python3専用に書き換え
-__date__ = "2019/12/28"  # ライブラリ用にlib/main_lib.pyを追加
+__date__ = '2017/02/24'  # 初版
+__date__ = '2018/02/24'  # python3専用に書き換え
+__date__ = '2019/12/28'  # ライブラリ用にlib/main_lib.pyを追加
+__date__ = '2023/03/23'  # シングルクオートに変更
 
 #
 # 標準ライブラリのインポート
@@ -41,29 +41,29 @@ def here(path=''):
   return os.path.abspath(os.path.join(os.path.dirname(__file__), path))
 
 # アプリケーションのホームディレクトリはこのファイルからみて一つ上
-app_home = here("..")
+app_home = here('..')
 
 # 自身の名前から拡張子を除いてプログラム名を得る
 app_name = os.path.splitext(os.path.basename(__file__))[0]
 
 # ディレクトリ
-conf_dir = os.path.join(app_home, "conf")
-data_dir = os.path.join(app_home, "data")
+conf_dir = os.path.join(app_home, 'conf')
+data_dir = os.path.join(app_home, 'data')
 
 
 # libフォルダにおいたpythonスクリプトをインポートできるようにするための処理
 # このファイルの位置から一つ
-lib_dir = os.path.join(app_home, "lib")
+lib_dir = os.path.join(app_home, 'lib')
 if not lib_dir in sys.path:
   sys.path.append(lib_dir)
 
 #
 # 設定ファイルを読む
 #
-config_file = os.path.join(conf_dir, "config.ini")
+config_file = os.path.join(conf_dir, 'config.ini')
 
 if not os.path.exists(config_file):
-  sys.exit("File not found:{}".format(config_file))
+  sys.exit('File not found:{}'.format(config_file))
 
 try:
   cp = configparser.ConfigParser()
@@ -72,8 +72,8 @@ try:
   # [default] セクション
   config = cp['default']
   USE_FILE_HANDLER = config.getboolean('USE_FILE_HANDLER', False)
-  USERNAME = config.get('USERNAME', "admin")
-  PASSWORD = config.get('PASSWORD', "password")
+  USERNAME = config.get('USERNAME', 'admin')
+  PASSWORD = config.get('PASSWORD', 'password')
 
 except configparser.Error as e:
   sys.exit(str(e))
@@ -83,10 +83,10 @@ except configparser.Error as e:
 #
 
 # ログファイルの名前
-log_file = app_name + ".log"
+log_file = app_name + '.log'
 
 # ログファイルを置くディレクトリ
-log_dir = os.path.join(app_home, "log")
+log_dir = os.path.join(app_home, 'log')
 os.makedirs(log_dir, exist_ok=True)
 
 # ロギングの設定
@@ -98,9 +98,9 @@ os.makedirs(log_dir, exist_ok=True)
 #   logging.DEBUG
 #
 # ログの出力方法
-# logger.debug("debugレベルのログメッセージ")
-# logger.info("infoレベルのログメッセージ")
-# logger.warning("warningレベルのログメッセージ")
+# logger.debug('debugレベルのログメッセージ')
+# logger.info('infoレベルのログメッセージ')
+# logger.warning('warningレベルのログメッセージ')
 
 # default setting
 logging.basicConfig()
@@ -140,24 +140,24 @@ if __name__ == '__main__':
     パイプでlessにつなげるとBrokenPipeErrorが発生するのでそれを捕捉して標準エラー出力を閉じます。
     """
     try:
-      # endを指定しない場合は"\n"がdefaultとなり出力の最後で改行される
-      print("Hello World") # -> Hello World\n
+      # endを指定しない場合は'\n'がdefaultとなり出力の最後で改行される
+      print('Hello World') # -> Hello World\n
 
       # end引数に空文字を指定することで改行を防止できる
-      print("Hello World", end="") # -> Hello World
+      print('Hello World', end='') # -> Hello World
 
       # 引数には出力用データを複数指定可能
       # データの結合文字はsepで指定する。defaultは半角スペース
-      print("Hello", "World") # -> aaa bbb\n
+      print('Hello', 'World') # -> aaa bbb\n
 
       # sepで結合文字を変更
-      print("Hello", "World", sep=",") # -> Hello,World\n
+      print('Hello', 'World', sep=',') # -> Hello,World\n
 
       # sepとendは同時に設定可能
-      print("Hello", "World", sep=",", end="") # -> Hello,World
+      print('Hello', 'World', sep=',', end='') # -> Hello,World
 
       # fileで指定したファイルオブジェクトに出力できる
-      print("Hello World", file=sys.stdout)
+      print('Hello World', file=sys.stdout)
     except (BrokenPipeError, IOError):
       # lessにパイプしたときのBrokenPipeError: [Errno 32] Broken pipeを避ける
       sys.stderr.close()
