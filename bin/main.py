@@ -102,8 +102,8 @@ os.makedirs(log_dir, exist_ok=True)
 # logger.info('infoレベルのログメッセージ')
 # logger.warning('warningレベルのログメッセージ')
 
-# default setting
-logging.basicConfig()
+# 独自にロガーを取得するか、もしくはルートロガーを設定する
+# logging.basicConfig()
 
 # ロガーを取得
 logger = logging.getLogger(__name__)
@@ -184,7 +184,9 @@ if __name__ == '__main__':
     #   data = f.read()
 
     if args.dump:
-      dump()
+        dump()
+        logger.info('logger info test')
+        logger.error('logger error test')
 
     # do something nice
 
