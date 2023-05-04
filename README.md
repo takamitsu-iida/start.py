@@ -6,14 +6,40 @@ Pythonスクリプトをゼロから書くときにクローンするプロジ�
 
 1. クローンします
 
+`git clone https://github.com/takamitsu-iida/start.py.git`
+
 2. 作成されたフォルダの名前を変えます
 
 3. .gitフォルダを削除します
 
-4. python3 -m venv .venv
+```
+rm -rf .git
+```
 
-5. direnv allow
+4. venvで仮想環境のフォルダを作ります
 
+```
+python3 -m venv .venv
+```
+
+5. direnv用の.envrcを作ります
+
+```
+cat - << EOS >> .envrc
+source .venv/bin/activate
+unset PS1
+EOS
+
+direnv allow
+```
+
+6. 仮想環境のpipを最新化します
+
+```
+python -m pip install --upgrade pip
+```
+
+<br><br>
 
 ## pylint
 
@@ -82,6 +108,7 @@ lib/
 <br><br><br>
 
 ### 履歴
+- 20230504 .envrcを削除、インデント数を4に変更
 - 20221116 .envrcを追加
 - 20190209 改行コードを全てLFに統一
 - 20190209 SafeConfigParser()をConfigParser()に変更
