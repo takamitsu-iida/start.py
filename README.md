@@ -108,7 +108,7 @@ lib/
 <br><br><br>
 
 ### 履歴
-- 20230504 .envrcを削除、インデント数を4に変更
+- 20230504 .envrcを削除、インデント数を4に変更、ConfigParser()の利用を廃止
 - 20221116 .envrcを追加
 - 20190209 改行コードを全てLFに統一
 - 20190209 SafeConfigParser()をConfigParser()に変更
