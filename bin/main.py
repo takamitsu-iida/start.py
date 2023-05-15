@@ -133,6 +133,8 @@ if __name__ == '__main__':
 
             # fileで指定したファイルオブジェクトに出力できる
             print('Hello World', file=sys.stdout)
+        except KeyboardInterrupt:
+            pass
         except (BrokenPipeError, IOError):
             # lessにパイプしたときのBrokenPipeError: [Errno 32] Broken pipeを避ける
             sys.stderr.close()
