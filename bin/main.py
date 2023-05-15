@@ -30,21 +30,25 @@ __date__ = '2023/03/23'  # シングルクオートに変更
 #
 import argparse
 import logging
-import os
 import sys
+from pathlib import Path
+
+
+# このファイルへのPathオブジェクト
+app_path = Path(__file__)
+
+# このファイルの名前から拡張子を除いてプログラム名を得る
+app_name = app_path.stem
 
 # アプリケーションのホームディレクトリはこのファイルからみて一つ上
-app_home = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-
-# 自身の名前から拡張子を除いてプログラム名を得る
-app_name = os.path.splitext(os.path.basename(__file__))[0]
+app_home = app_path.parent.joinpath('..').resolve()
 
 # データ用ディレクトリ
-data_dir = os.path.join(app_home, 'data')
+data_dir = app_home.joinpath('data')
 
 # libフォルダにおいたpythonスクリプトをインポートできるようにするための処理
 # このファイルの位置から一つ
-lib_dir = os.path.join(app_home, 'lib')
+lib_dir = app_home.joinpath('lib')
 if not lib_dir in sys.path:
     sys.path.append(lib_dir)
 
@@ -53,11 +57,14 @@ if not lib_dir in sys.path:
 #
 
 # ログファイルの名前
-log_file = app_name + '.log'
+log_file = app_path.with_suffix('.log').name
 
 # ログファイルを置くディレクトリ
-log_dir = os.path.join(app_home, 'log')
-os.makedirs(log_dir, exist_ok=True)
+log_dir = app_home.joinpath('log')
+log_dir.mkdir(exist_ok=True)
+
+# ログファイルのパス
+log_path = log_dir.joinpath(log_file)
 
 # ロギングの設定
 # レベルはこの順で下にいくほど詳細になる
@@ -91,7 +98,7 @@ stdout_handler.setLevel(logging.INFO)
 logger.addHandler(stdout_handler)
 
 # ログファイルのハンドラ
-file_handler = logging.FileHandler(os.path.join(log_dir, log_file), 'a+')
+file_handler = logging.FileHandler(log_path, 'a+')
 file_handler.setFormatter(formatter)
 file_handler.setLevel(logging.INFO)
 logger.addHandler(file_handler)

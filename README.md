@@ -2,6 +2,8 @@
 
 Pythonスクリプトをゼロから書くときにクローンするプロジェクトです。
 
+<br><br>
+
 ## 使い方
 
 1. クローンします
@@ -25,7 +27,7 @@ python3 -m venv .venv
 5. direnv用の.envrcを作ります
 
 ```
-cat - << EOS >> .envrc
+cat - << EOS > .envrc
 source .venv/bin/activate
 unset PS1
 EOS
@@ -37,6 +39,32 @@ direnv allow
 
 ```
 python -m pip install --upgrade pip
+```
+
+<br><br>
+
+## pathlibへの変更 (2023年5月15日変更)
+
+`os.path` を用いてこのように書いていたディレクトリへの参照はすべて`pathlib`に置き換えました。
+
+> 参考：os.pathとPathの対応
+>
+> https://docs.python.org/ja/3/library/pathlib.html#correspondence-to-tools-in-the-os-module
+
+
+```
+# アプリケーションのホームディレクトリはこのファイルからみて一つ上
+app_home = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
+# 自身の名前から拡張子を除いてプログラム名を得る
+app_name = os.path.splitext(os.path.basename(__file__))[0]
+
+# データ用ディレクトリ
+data_dir = os.path.join(app_home, 'data')
+
+# libフォルダにおいたpythonスクリプトをインポートできるようにするための処理
+# このファイルの位置から一つ
+lib_dir = os.path.join(app_home, 'lib')
 ```
 
 <br><br>
@@ -108,6 +136,8 @@ lib/
 <br><br><br>
 
 ### 履歴
+
+- 20230515 os.pathからpathlibに変更
 - 20230504 .envrcを削除、インデント数を4に変更、ConfigParser()の利用を廃止
 - 20221116 .envrcを追加
 - 20190209 改行コードを全てLFに統一
