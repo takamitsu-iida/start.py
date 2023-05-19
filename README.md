@@ -84,6 +84,8 @@ pip install pylint [--proxy=http://name:pass@proxyaddr:8080]
 pylint --generate-rcfile > .pylintrc
 ```
 
+<br><br>
+
 ## yapf
 
 書式を自動整形したい場合にはyapfを使います。
@@ -93,6 +95,8 @@ Visual Studio Codeでは、右クリック→ドキュメントのフォーマ�
 ```bash
 pip install yapf [--proxy=http://name:pass@proxyaddr:8080]
 ```
+
+<br><br>
 
 ## Visual Studio Codeの設定
 
@@ -132,6 +136,17 @@ lib/
 ```
 
 を追加します。
+
+環境変数 PYTHONPATH を使う方法もあります。この場合は `.envrc` で設定するとよいでしょう。
+
+```
+cat - << EOS >> .envrc
+
+# PYTHONPATH
+export PYTHONPATH=$PWD/lib:$PYTHONPATH
+
+EOS
+```
 
 <br><br><br>
 
