@@ -139,6 +139,7 @@ if __name__ == '__main__':
             # lessにパイプしたときのBrokenPipeError: [Errno 32] Broken pipeを避ける
             sys.stderr.close()
 
+
     def main():
         """メイン関数
 
@@ -148,22 +149,9 @@ if __name__ == '__main__':
 
         # 引数処理
         parser = argparse.ArgumentParser(description='main script.')
-        parser.add_argument('-c',
-                            '--create',
-                            action='store_true',
-                            default=False,
-                            help='Create')
-        parser.add_argument('-f',
-                            '--filename',
-                            dest='filename',
-                            metavar='file',
-                            default='FILENAME',
-                            help='Filename')
-        parser.add_argument('-d',
-                            '--dump',
-                            action='store_true',
-                            default=False,
-                            help='Dump')
+        parser.add_argument('-c', '--create', action='store_true', default=False, help='Create')
+        parser.add_argument('-f', '--filename', dest='filename', default='FILENAME', help='Filename')
+        parser.add_argument('-d', '--dump', action='store_true', default=False, help='Dump')
         args = parser.parse_args()
 
         # フィルタで受け取りたい場合はこうする（↓）
