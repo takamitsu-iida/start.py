@@ -2,18 +2,72 @@
 
 Pythonスクリプトをゼロから書くときにクローンするプロジェクトです。
 
+<br><br>
+
 ## 使い方
 
 1. クローンします
+
+`git clone https://github.com/takamitsu-iida/start.py.git`
 
 2. 作成されたフォルダの名前を変えます
 
 3. .gitフォルダを削除します
 
-4. python3 -m venv .venv
+```
+rm -rf .git
+```
 
-5. direnv allow
+4. venvで仮想環境のフォルダを作ります
 
+```
+python3 -m venv .venv
+```
+
+5. direnv用の.envrcを作ります
+
+```
+cat - << EOS > .envrc
+source .venv/bin/activate
+unset PS1
+EOS
+
+direnv allow
+```
+
+6. 仮想環境のpipを最新化します
+
+```
+python -m pip install --upgrade pip
+```
+
+<br><br>
+
+## pathlibへの変更 (2023年5月15日変更)
+
+`os.path` を用いてこのように書いていたディレクトリへの参照はすべて`pathlib`に置き換えました。
+
+> 参考：os.pathとPathの対応
+>
+> https://docs.python.org/ja/3/library/pathlib.html#correspondence-to-tools-in-the-os-module
+
+
+```
+# アプリケーションのホームディレクトリはこのファイルからみて一つ上
+app_home = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
+# 自身の名前から拡張子を除いてプログラム名を得る
+app_name = os.path.splitext(os.path.basename(__file__))[0]
+
+# データ用ディレクトリ
+data_dir = os.path.join(app_home, 'data')
+
+# libフォルダにおいたpythonスクリプトをインポートできるようにするための処理
+# このファイルの位置から一つ
+lib_dir = os.path.join(app_home, 'lib')
+```
+
+<br><br>
 
 ## pylint
 
@@ -30,6 +84,8 @@ pip install pylint [--proxy=http://name:pass@proxyaddr:8080]
 pylint --generate-rcfile > .pylintrc
 ```
 
+<br><br>
+
 ## yapf
 
 書式を自動整形したい場合にはyapfを使います。
@@ -39,6 +95,8 @@ Visual Studio Codeでは、右クリック→ドキュメントのフォーマ�
 ```bash
 pip install yapf [--proxy=http://name:pass@proxyaddr:8080]
 ```
+
+<br><br>
 
 ## Visual Studio Codeの設定
 
@@ -79,9 +137,23 @@ lib/
 
 を追加します。
 
+環境変数 PYTHONPATH を使う方法もあります。この場合は `.envrc` で設定するとよいでしょう。
+
+```
+cat - << EOS >> .envrc
+
+# PYTHONPATH
+export PYTHONPATH=$PWD/lib:$PYTHONPATH
+
+EOS
+```
+
 <br><br><br>
 
 ### 履歴
+
+- 20230515 os.pathからpathlibに変更
+- 20230504 .envrcを削除、インデント数を4に変更、ConfigParser()の利用を廃止
 - 20221116 .envrcを追加
 - 20190209 改行コードを全てLFに統一
 - 20190209 SafeConfigParser()をConfigParser()に変更
