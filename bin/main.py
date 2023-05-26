@@ -49,7 +49,7 @@ data_dir = app_home.joinpath('data')
 # libフォルダにおいたpythonスクリプトをインポートできるようにするための処理
 # このファイルの位置から一つ
 lib_dir = app_home.joinpath('lib')
-if not lib_dir in sys.path:
+if lib_dir not in sys.path:
     sys.path.append(lib_dir)
 
 #
