@@ -50,7 +50,7 @@ data_dir = app_home.joinpath('data')
 # このファイルの位置から一つ
 lib_dir = app_home.joinpath('lib')
 if lib_dir not in sys.path:
-    sys.path.append(lib_dir)
+    sys.path.append(str(lib_dir))
 
 #
 # ログ設定
