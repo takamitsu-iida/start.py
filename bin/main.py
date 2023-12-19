@@ -80,10 +80,16 @@ log_path = log_dir.joinpath(log_file)
 # logger.warning('warningレベルのログメッセージ')
 
 # 独自にロガーを取得するか、もしくはルートロガーを設定する
+
+# ルートロガーを設定する場合
 # logging.basicConfig()
 
-# ロガーを取得
+# 独自にロガーを取得する場合
 logger = logging.getLogger(__name__)
+
+# 参考
+# ロガーに特定の名前を付けておけば、後からその名前でロガーを取得できる
+# logging.getLogger("main.py").setLevel(logging.INFO)
 
 # ログレベル設定
 logger.setLevel(logging.INFO)
