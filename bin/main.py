@@ -91,6 +91,9 @@ logger = logging.getLogger(__name__)
 # ロガーに特定の名前を付けておけば、後からその名前でロガーを取得できる
 # logging.getLogger("main.py").setLevel(logging.INFO)
 
+# ルートロガーへの伝播を無効化
+logger.propagate = False
+
 # ログレベル設定
 logger.setLevel(logging.INFO)
 
